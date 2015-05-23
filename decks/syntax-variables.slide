@@ -1,0 +1,66 @@
+Go Syntax - Variables
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Basic Types - Boolean
+
+- Go lang type: `bool`
+- Represents Boolean values using predeclared constants true and false
+
+* Numeric Types - Architecture independent
+
+- Unsigned integers (`uint8`, `uint16` , `uint32`, `uint64`)
+- Signed integers (`int8`, `int16`, `int32`, `int64`)
+- Floating point numbers (`float32`, `float64`)
+- Complex numbers (`complex64`, `complex128`)
+- byte (alias for `uint8`)
+- rune (alias for `int32`)
+
+* Numeric Types - Architecture dependent
+
+- `uint` - Either 32 or 64 bits
+- `int` - Same size as uint
+- `uintptr` - Unsigned integer large enough to hold a pointer
+
+* Strings
+
+A _string_type_ represents the set of string values. A string value is a (possibly empty)
+sequence of bytes. Strings are immutable: once created, it is impossible to change
+the contents of a string. The predeclared string type is `string`.
+
+The length of a string s (its size in bytes) can be discovered using the built-in
+function `len`. The length is a compile-time constant if the string is a constant.
+A string's bytes can be accessed by integer indices 0 through len(s)-1. It is illegal
+to take the address of such an element; if s[i] is the i'th byte of a string, &s[i]
+is invalid.
+
+* Variable Declarations
+
+A variable declaration creates one or more variables, binds corresponding identifiers
+to them, and gives each a type an initial value.
+
+If a list of expressions is given, the variables are initialized with the expressions
+following the rules for assignments. Otherwise, each variable is initialized to its
+zero value.
+
+If a type is present, each variable is given that type. Otherwise, each variable
+is given the type of the corresponding initialization value in the assignment. If
+that value is an untyped constant, it is first converted to its default type; if it
+is an untyped boolean value, it is first converted to type bool. The predeclared
+value nil cannot be used to initialize a variable with no explicit type.
+
+* Example - Variable Declarations
+
+  var i int
+  var U, V, W float64
+  var k = 0
+  var x, y float32 = -1, -2
+  var (
+  	i       int
+  	u, v, s = 2.0, 3.0, "bar"
+  )
+  var re, im = complexSqrt(-1)
+  var _, found = entries[name]  // map lookup; only interested in "found"
