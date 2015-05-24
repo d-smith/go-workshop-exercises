@@ -1,0 +1,49 @@
+Go Syntax - Pointers
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Pointer Types
+
+Pointers reference a location in memory where a value is stored, rather than the value itself. The value of a pointer variable is always an address.
+
+  *Point
+  *[4]int
+
+While * is used when declaring pointer variables, it can also be used to _dereference_
+pointers to give access to the underlying value the pointer points to.
+
+We can use & to find the address of a variable.
+
+* Pointers Are About Sharing
+
+By default, Go passes arguments by value, copying the arguments. To pass values
+by reference, a pointer must be used (or a reference type like slices, functions,
+etc.)
+
+The address of parts of composite types can be passed.
+
+* Memory Allocation
+
+- The Go compiler performs escape analysis to determine if memory is allocated on the stack or the heap.
+- Go is a garbage collected langauge.
+
+  func NewFile(fd int, name string) *File {
+      if fd < 0 {
+          return nil
+      }
+      f := File{fd, name, nil, 0}
+      return &f
+  }
+
+* Code Review
+
+.link https://play.golang.org/p/nNnsK6hWdP Pass by value
+
+
+.link https://play.golang.org/p/FWmGnVUDoA Sharing data 1
+
+
+.link http://play.golang.org/p/cK1_GFyDOo Sharing data 2
