@@ -1,0 +1,65 @@
+Go Syntax - Structs
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Struct Types
+
+A struct is a sequence of named elements, called fields, each of which has a
+name and a type. Field names may be specified explicitly (IdentifierList) or
+implicitly (AnonymousField). Within a struct, non-blank field names must be unique.
+
+  // An empty struct.
+  struct {}
+
+  // A struct with 6 fields.
+  struct {
+  	x, y int
+  	u float32
+  	_ float32  // padding
+  	A *[]int
+  	F func()
+  }
+
+* Anonymous/Embedded Fields
+
+A field declared with a type but no explicit field name is an anonymous field, also
+called an embedded field or an embedding of the type in the struct. An embedded type
+must be specified as a type name T or as a pointer to a non-interface type name *T,
+and T itself may not be a pointer type. The unqualified type name acts as the field
+name.
+
+  // A struct with four anonymous fields of type T1, *T2, P.T3 and *P.T4
+  struct {
+  	T1        // field name is T1
+  	*T2       // field name is T2
+  	P.T3      // field name is T3
+  	*P.T4     // field name is T4
+  	x, y int  // field names are x and y
+  }
+
+* Composite Literals
+
+Composite literals construct values for structs, arrays, slices, and maps and create
+a new value each time they are evaluated. They consist of the type of the value
+followed by a brace-bound list of composite elements. An element may be a single
+expression or a key-value pair.
+
+The LiteralType must be a struct, array, slice, or map type (the grammar enforces this constraint except when the type is given as a TypeName). The types of the expressions must be assignable to the respective field, element, and key types of the LiteralType; there is no additional conversion. The key is interpreted as a field name for struct literals, an index for array and slice literals, and a key for map literals. For map literals, all elements must have a key. It is an error to specify multiple elements with the same field name or constant key value.
+
+* Struct Composite Literals
+
+For struct literals the following rules apply:
+
+- A key must be a field name declared in the LiteralType.
+- An element list that does not contain any keys must list an element for each struct field in the order in which the fields are declared.
+- If any element has a key, every element must have a key.
+- An element list that contains keys does not need to have an element for each struct field. Omitted fields get the zero value for that field.
+- A literal may omit the element list; such a literal evaluates to the zero value for its type.
+- It is an error to specify an element for a non-exported field of a struct belonging to a different package.
+
+* Code Review
+
+.link http://play.golang.org/p/Sl-vYp7pp_
