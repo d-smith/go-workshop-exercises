@@ -64,3 +64,39 @@ value nil cannot be used to initialize a variable with no explicit type.
   )
   var re, im = complexSqrt(-1)
   var _, found = entries[name]  // map lookup; only interested in "found"
+
+* Short Variable Declarations
+
+A_short_variable_declaration_ is short hand for a regular variable declaration
+with initializer expressions but no types.
+
+  i, j := 0, 10
+  f := func() int { return 7 }
+  ch := make(chan int)
+  r, w := os.Pipe(fd)  // os.Pipe() returns two values
+  _, y, _ := coord(p)  // coord() returns three values; only interested in y coordinate
+
+Unlike regular variable declarations, a short variable declaration may redeclare
+variables provided they were originally declared earlier in the same block with
+the same type, and at least one of the non-blank variables is new. As a consequence,
+redeclaration can only appear in a multi-variable short declaration. Redeclaration
+does not introduce a new variable; it just assigns a new value to the original.
+
+Short variable declarations may appear only inside functions. In some contexts such
+as the initializers for "if", "for", or "switch" statements, they can be used to
+declare local temporary variables.
+
+* The Zero Value
+
+When storage is allocated for a variable, either through a declaration or a call of
+new, or when a new value is created, either through a composite literal or a call
+of make, and no explicit initialization is provided, the variable or value is given
+a default value. Each element of such a variable or value is set to the zero value
+for its type: false for booleans, 0 for integers, 0.0 for floats, "" for strings,
+and nil for pointers, functions, interfaces, slices, channels, and maps. This
+initialization is done recursively, so for instance each element of an array of
+structs will have its fields zeroed if no value is specified.
+
+* Code Review
+
+.link http://play.golang.org/p/6w6hBNE75a
