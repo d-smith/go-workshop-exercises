@@ -1,3 +1,23 @@
 One day training: https://github.com/ArdanStudios/gotraining/blob/master/00-slides/one_day_training.md
 
+Language Syntax
 
+Variables | Struct Types | Pointers | Functions
+
+Arrays and Slices
+
+Arrays | Slices
+
+Methods, Interfaces and Embedding (OOP)
+
+Methods | Interfaces | Embedding
+
+Packaging and Exporting
+
+Packaging and Exporting
+
+Concurrency, Race Conditions and Channels
+
+Goroutines | Channels
+
+What about control flow?

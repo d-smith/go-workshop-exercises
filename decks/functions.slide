@@ -1,0 +1,74 @@
+Go Syntax - Functions
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Functions
+
+- A function is an independent section of code that maps zero or more input parameters to zero or more output parameters.
+- Functions are declared with the keywork `func`, followed by a parameter list, followed by a return parameter list, followed by the function body.
+
+  func min(x int, y int) int {
+  	if x < y {
+  		return x
+  	}
+  	return y
+  }
+
+* Function Types
+
+A function type denotes the set of all functions with the same parameter and result types. The value of an uninitialized variable of function type is nil.
+
+Within a list of parameters or results, the names (IdentifierList) must either all be present or all be absent. If present, each name stands for one item (parameter or result) of the specified type and all non-blank names in the signature must be unique. If absent, each type stands for one item of that type. Parameter and result lists are always parenthesized except that if there is exactly one unnamed result it may be written as an unparenthesized type.
+
+The final parameter in a function signature may have a type prefixed with .... A function with such a parameter is called variadic and may be invoked with zero or more arguments for that parameter.
+
+* Function Types - Examples
+
+  func()
+  func(x int) int
+  func(a, _ int, z float32) bool
+  func(a, b int, z float32) (bool)
+  func(prefix string, values ...int)
+  func(a, b int, z float64, opt ...interface{}) (success bool)
+  func(int, int, float64) (float64, *[]int)
+  func(n int) func(p *T)
+
+* Multiple Return Values and Naked Returns
+
+In Golang, a function may return multiple return values, with the return values listed in the function declaration's results list.
+
+When the results list items are named, they can be treated as variables from the outermost function block scope (initialized to the zero value), and do not have to be explicitly included in the terminating return statement.
+
+  func ReturnId() (id int, err error) {
+     id = 10
+     return
+  }
+
+* Multiple Return Values and Signaling Errors
+
+In languages like C, return values are often used to signal errors, with the source of the error stashed in volatile memory that can be accessed if interested in the details of the error.
+
+In Go multiple return return values can be used to separate concerns for return information. For example, the Write function can indicate some number of bytes were written before the disk filled up.
+
+  func (file *File) Write(b []byte) (n int, err error)
+
+Callers must handle errors as they occur.
+
+  if n, err := Write(b) {
+      //Handle error...
+  }
+
+  //Continue processing knowing n bytes were written
+
+* Code Review
+
+.link http://play.golang.org/p/bYY-TRjfH0 Multiple return values
+
+.link http://play.golang.org/p/wPVvgwPlHw Blank identifier
+
+.link http://play.golang.org/p/XQS-twjrtl Redeclarations
+
+.link http://play.golang.org/p/eg14ClW4_y Trapping panics
