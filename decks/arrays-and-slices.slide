@@ -1,0 +1,76 @@
+Go Syntax - Arrays and Slices
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Array Types
+
+An array is a numbered sequence of elements of a single type, called the element type. The number of elements is called the length and is never negative.
+
+The length is part of the array's type; it must evaluate to a non-negative constant representable by a value of type int. The length of array a can be discovered using the built-in function len. The elements can be addressed by integer indices 0 through len(a)-1. Array types are always one-dimensional but may be composed to form multi-dimensional types.
+
+  [32]byte
+  [2*N] struct { x, y int32 }
+  [1000]*float64
+  [3][5]int
+  [2][2][2]float64  // same as [2]([2]([2]float64))
+
+Arrays are useful when planning the detailed layout of memory and sometimes can help avoid allocation, but primarily they are a building block for slices.
+
+* Code Review - Arrays
+
+.link https://play.golang.org/p/DGr8Zp9L_w Declare, initialize, and iterate
+.link http://play.golang.org/p/LVD43cYBNS Different type arrays
+.link https://play.golang.org/p/s4BSgxz0Y3 Contiguous memory allocation
+
+* Slices
+
+A slice is a descriptor for a contiguous segment of an underlying array and provides access to a numbered sequence of elements from that array. A slice type denotes the set of all slices of arrays of its element type. The value of an uninitialized slice is nil.
+
+Like arrays, slices are indexable and have a length. The length of a slice s can be discovered by the built-in function len; unlike with arrays it may change during execution. The elements can be addressed by integer indices 0 through len(s)-1. The slice index of a given element may be less than the index of the same element in the underlying array.
+
+A slice, once initialized, is always associated with an underlying array that holds its elements. A slice therefore shares storage with its array and with other slices of the same array; by contrast, distinct arrays always represent distinct storage.
+
+* Slices - 2
+
+The array underlying a slice may extend past the end of the slice. The capacity is a measure of that extent: it is the sum of the length of the slice and the length of the array beyond the slice; a slice of length up to that capacity can be created by slicing a new one from the original slice. The capacity of a slice a can be discovered using the built-in function cap(a).
+
+A new, initialized slice value for a given element type T is made using the built-in function make, which takes a slice type and parameters specifying the length and optionally the capacity. A slice created with make always allocates a new, hidden array to which the returned slice value refers.
+
+Making a slice and allocating an array an slicing it are equivalent.
+
+  make([]int, 50, 100)
+  new([100]int)[0:50]
+
+* Multi-diminsion Slices
+
+Like arrays, slices are always one-dimensional but may be composed to construct higher-dimensional objects. With arrays of arrays, the inner arrays are, by construction, always the same length; however with slices of slices (or arrays of slices), the inner lengths may vary dynamically. Moreover, the inner slices must be initialized individually.
+
+* Slice Expressions
+
+Slice expressions construct a substring or slice from a string, array, pointer to array, or slice. There are two variants: a simple form that specifies a low and high bound, and a full form that also specifies a bound on the capacity.
+
+.link https://golang.org/ref/spec#Slice_expressions Slice Expressions
+
+* Appending to and copying slices
+
+The built-in functions append and copy assist in common slice operations. For both functions, the result is independent of whether the memory referenced by the arguments overlaps.
+
+The variadic function append appends zero or more values x to s of type S, which must be a slice type, and returns the resulting slice, also of type S. The values x are passed to a parameter of type ...T where T is the element type of S and the respective parameter passing rules apply. As a special case, append also accepts a first argument assignable to type []byte with a second argument of string type followed by .... This form appends the bytes of the string.
+
+  append(s S, x ...T) S  // T is the element type of S
+
+If the capacity of s is not large enough to fit the additional values, append allocates a new, sufficiently large underlying array that fits both the existing slice elements and the additional values. Otherwise, append re-uses the underlying array.
+
+* Code Review - Slices
+
+.link http://play.golang.org/p/fWJR3Kln4Y Declare and Length
+.link https://play.golang.org/p/d1kRkbZ-iV Reference Types
+.link https://play.golang.org/p/aizhjTO-br Taking slices of slices
+.link http://play.golang.org/p/UzmwiMWDwd Appending slices
+.link http://play.golang.org/p/6CAkumo0HI Strings and slices
+.link http://play.golang.org/p/cK3y_qYUgd Variadic functions
+.link http://play.golang.org/p/-qQgO7NbLm Practical use of slices
+.link http://play.golang.org/p/dJk2eycWhH Three index slicing
