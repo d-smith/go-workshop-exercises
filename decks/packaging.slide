@@ -1,0 +1,64 @@
+Go - Packaging and Exporting
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Go Program Structure
+
+Go programs are constructed by linking together packages. A package in turn is constructed from one or more source files that together declare constants, types, variables and functions belonging to the package and which are accessible in all files of the same package. Those elements may be exported and used in another package.
+
+* Source File Organization
+
+Each source file consists of a package clause defining the package to which it belongs, followed by a possibly empty set of import declarations that declare packages whose contents it wishes to use, followed by a possibly empty set of declarations of functions, types, variables, and constants.
+
+* Import Declarations
+
+An import declaration states that the source file containing the declaration depends on functionality of the imported package and enables access to exported identifiers of that package. The import names an identifier to be used for access and an ImportPath that specifies the package to be imported.
+
+The PackageName is used in qualified identifiers to access exported identifiers of the package within the importing source file. It is declared in the file block. If the PackageName is omitted, it defaults to the identifier specified in the package clause of the imported package. If an explicit period (.) appears instead of a name, all the package's exported identifiers declared in that package's package block will be declared in the importing source file's file block and must be accessed without a qualifier.
+
+The interpretation of the ImportPath is implementation-dependent but it is typically a substring of the full file name of the compiled package and may be relative to a repository of installed packages.
+
+.link http://www.goinggo.net/2013/08/organizing-code-to-support-go-get.html Code Organization and Go Get
+
+* Exported Identifiers
+
+An identifier may be exported to permit access to it from another package. An identifier is exported if both:
+
+- the first character of the identifier's name is a Unicode upper case letter (Unicode class "Lu"); and
+- the identifier is declared in the package block or it is a field name or method name.
+
+All other identifiers are not exported.
+
+* Package Initialization
+
+Within a package, package-level variables are initialized in declaration order but after any of the variables they depend on.
+
+More precisely, a package-level variable is considered ready for initialization if it is not yet initialized and either has no initialization expression or its initialization expression has no dependencies on uninitialized variables. Initialization proceeds by repeatedly initializing the next package-level variable that is earliest in declaration order and ready for initialization, until there are no variables ready for initialization.
+
+If any variables are still uninitialized when this process ends, those variables are part of one or more initialization cycles, and the program is not valid.
+
+The declaration order of variables declared in multiple files is determined by the order in which the files are presented to the compiler: Variables declared in the first file are declared before any of the variables declared in the second file, and so on.
+
+* Package Initialization - 2
+
+Dependency analysis does not rely on the actual values of the variables, only on lexical references to them in the source, analyzed transitively. For instance, if a variable x's initialization expression refers to a function whose body refers to variable y then x depends on y.
+
+Dependency analysis is performed per package; only references referring to variables, functions, and methods declared in the current package are considered.
+
+Variables may also be initialized using functions named init declared in the package block, with no arguments and no result parameters.
+
+  func init() { … }
+
+Multiple such functions may be defined, even within a single source file. The init identifier is not declared and thus init functions cannot be referred to from anywhere in a program.
+
+* Code Review
+
+.link https://github.com/ArdanStudios/gotraining/blob/master/04-packaging_exporting/example1/example1.go Declare and Access Exported Identifiers
+.link https://github.com/ArdanStudios/gotraining/blob/master/04-packaging_exporting/example2/example2.go Declare unexported identifiers and restrictions
+.link https://github.com/ArdanStudios/gotraining/blob/master/04-packaging_exporting/example3/example3.go Access values of unexported identifiers
+.link https://github.com/ArdanStudios/gotraining/blob/master/04-packaging_exporting/example4/example4.go Unexported struct type fields
+.link https://github.com/ArdanStudios/gotraining/blob/master/04-packaging_exporting/example5/example5.go Exported embedded types
+.link https://github.com/ArdanStudios/gotraining/blob/master/04-packaging_exporting/example6/example6.go Unexported embedded types
