@@ -1,0 +1,85 @@
+Go Lang - Concurrency and Channels
+23 May 2015
+Tags: go golang
+
+Doug Smith
+doug.smith@fmr.com
+
+* Goroutines
+
+A "go" statement starts the execution of a function call as an independent concurrent thread of control, or goroutine, within the same address space. The expression must be a function or method call; it cannot be parenthesized. Calls of built-in functions are restricted as for expression statements.
+
+  go Server()
+  go func(ch chan<- bool) { for { sleep(10); ch <- true; }} (c)
+
+* Go Scheduler
+
+.link https://raw.githubusercontent.com/ArdanStudios/gotraining/master/07-concurrency_channels/01-goroutines/documentation/scheduler.png Go Scheduler
+.link https://raw.githubusercontent.com/ArdanStudios/gotraining/master/07-concurrency_channels/01-goroutines/documentation/parallel.png Concurrency vs Parallelism
+
+* More on Go Concurrency
+
+- Process - container of resources (threads, memory, file descriptors, etc) A process has a main thread, OS schedules threads for execution on the processor
+- Some overhead with threads, each thread gets 1MB stack, OS needs to keep track of state of CPU etc for each thread, etc.
+- Efficient utilization of a single thread gets more CPU time.
+- Concurrency is managing a lot of things at once (different from parallelism)
+- Start a program - go runtime gives it a single logical processor with a single OS thread. Local run queue for logical processor, global run queue.
+- Scheduler looks at things roughly every 10 ms, may preempt things to run other threads, etc. OS perspective - thread never goes to sleep. Go scheduler is smart about what it saves and restores for efficiency.
+
+* Even More on Go Concurrency
+
+- Scheduler looks for blocking calls - detach thread from the LP, assign another and schedule something else to run.
+- Max threads is 10,000 by default
+- Network poller - set of threads for doing networking, threads move to the thread poller for network calls, come back when done.
+- No access to thread local storage, thread ids, etc.
+
+* Code Review
+
+.link http://play.golang.org/p/LI0TEB6PMf Goroutines and Concurrency
+.link https://play.golang.org/p/AzDUqwkM58 Goroutine time slicing
+.link http://play.golang.org/p/cqsHoPD30n Goroutines and parallelism
+
+Demo - Show effect of GOMAXPROCS for example 2 - demo from /Users/a045103/goprojects/src/fido/go1
+
+
+* Race Detector
+
+.link http://blog.golang.org/race-detector
+
+* Race Detector Example
+
+- Race example - /Users/a045103/goprojects/src/fido/race
+- Race example - fixed: /Users/a045103/goprojects/src/fido/race-fixed
+
+* Channels
+
+Do not communicate by sharing memory; instead, share memory by communicating.
+
+* Channel Types
+
+A channel provides a mechanism for concurrently executing functions to communicate by sending and receiving values of a specified element type. The value of an uninitialized channel is nil.
+
+The optional <- operator specifies the channel direction, send or receive. If no direction is given, the channel is bidirectional. A channel may be constrained only to send or only to receive by conversion or assignment.
+
+  chan T          // can be used to send and receive values of type T
+  chan<- float64  // can only be used to send float64s
+  <-chan int      // can only be used to receive ints
+
+* Making Channels
+
+A new, initialized channel value can be made using the built-in function make, which takes the channel type and an optional capacity as arguments:
+
+  make(chan int, 100)
+
+The capacity, in number of elements, sets the size of the buffer in the channel. If the capacity is zero or absent, the channel is unbuffered and communication succeeds only when both a sender and receiver are ready. Otherwise, the channel is buffered and communication succeeds without blocking if the buffer is not full (sends) or not empty (receives). A nil channel is never ready for communication.
+
+A channel may be closed with the built-in function close. The multi-valued assignment form of the receive operator reports whether a received value was sent before the channel was closed.
+
+A single channel may be used in send statements, receive operations, and calls to the built-in functions cap and len by any number of goroutines without further synchronization. Channels act as first-in-first-out queues.
+
+* Code Review
+
+.link http://play.golang.org/p/7WO_eOJx_G Unbuffered Channels - Tennis Game
+.link http://play.golang.org/p/q_0Q4SgUVZ Unbuffered Channels - Relay Race
+.link http://play.golang.org/p/jT4-vZBpMm Buffered Channels - Receiving Results
+.link http://play.golang.org/p/KuMG3o_7-C Timer Channels and Select
