@@ -1,4 +1,4 @@
-Go Syntax - Variables
+Go - Variables
 23 May 2015
 Tags: go golang
 
@@ -67,7 +67,7 @@ value nil cannot be used to initialize a variable with no explicit type.
 
 * Short Variable Declarations
 
-A_short_variable_declaration_ is short hand for a regular variable declaration
+A _short_variable_declaration_ is short hand for a regular variable declaration
 with initializer expressions but no types.
 
   i, j := 0, 10
