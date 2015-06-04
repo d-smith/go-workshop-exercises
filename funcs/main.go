@@ -23,6 +23,9 @@ type user struct {
 // Declare a function that creates user type values and returns a pointer
 // to that value and an error value of nil.
 func NewUser(name string, email string) (*user, error) {
+	if name == "NotAName" {
+		return nil, fmt.Errorf("Error creating user")
+	}
 	return &user{name, email}, nil
 }
 
@@ -36,8 +39,9 @@ func main() {
 	fmt.Printf("%v\n", *user)
 
 	// Call the function again and just check the error.
-	_, err = NewUser("", "")
+	_, err = NewUser("NotAName", "")
 	if err != nil {
-		println(err)
+		println(err.Error())
 	}
+
 }
