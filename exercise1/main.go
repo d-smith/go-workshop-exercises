@@ -36,4 +36,7 @@ func main() {
 
 	// Display the value of that variable.
 	fmt.Println(ui)
+
+	var pi float32 = float32(3.14)
+	fmt.Println(pi)
 }
