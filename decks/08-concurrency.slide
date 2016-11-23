@@ -3,7 +3,6 @@ Go Lang - Concurrency and Channels
 Tags: go golang
 
 Doug Smith
-doug.smith@fmr.com
 
 * Goroutines
 
@@ -39,7 +38,7 @@ A "go" statement starts the execution of a function call as an independent concu
 .link https://play.golang.org/p/AzDUqwkM58 Goroutine time slicing
 .link http://play.golang.org/p/cqsHoPD30n Goroutines and parallelism
 
-Demo - Show effect of GOMAXPROCS for example 2 - demo from /Users/a045103/goprojects/src/fido/go1
+Demo - Show effect of GOMAXPROCS for example 2 - demo from $HOME/goprojects/src/fido/go1
 
 
 * Race Detector
@@ -48,8 +47,8 @@ Demo - Show effect of GOMAXPROCS for example 2 - demo from /Users/a045103/goproj
 
 * Race Detector Example
 
-- Race example - /Users/a045103/goprojects/src/fido/race
-- Race example - fixed: /Users/a045103/goprojects/src/fido/race-fixed
+- Race example - $HOME/goprojects/src/fido/race
+- Race example - fixed: $HOME/goprojects/src/fido/race-fixed
 
 * Channels
 

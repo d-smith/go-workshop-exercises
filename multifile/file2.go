@@ -7,7 +7,7 @@ import (
 func main() {
 	user := User{
 		Name:  "doug",
-		Email: "doug.smith@fmr.com",
+		Email: "doug.smith.mail@gmail.com",
 	}
 
 	fmt.Printf("%v\n", user)
