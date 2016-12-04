@@ -1,0 +1,34 @@
+Go - HTTP
+23 May 2015
+Tags: go golang
+
+Doug Smith
+
+* net/http Package
+
+
+Foundational Types
+
+- ResponseWriter
+- Request
+
+.link https://golang.org/pkg/net/http/ net/http package
+
+* HTTP Server - Basic
+
+Code Samples
+
+.link https://github.com/ardanlabs/gotraining/blob/master/topics/web/basics/example1/main.go Simple Web Server
+.link https://github.com/ardanlabs/gotraining/blob/master/topics/web/basics/example2/main.go Server Mux Example
+.link https://github.com/ardanlabs/gotraining/blob/master/topics/web/basics/example3/main.go User Defined Handler Example 1
+.link https://github.com/ardanlabs/gotraining/blob/master/topics/web/basics/example4/main.go User Defined Handler Example 2
+
+* HTTP Client
+
+* HTTP Test Support
+
+* Serving Static Content
+
+* HTTP Context
+
+* TLS
