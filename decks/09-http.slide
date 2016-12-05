@@ -11,6 +11,11 @@ Foundational Types
 
 - ResponseWriter
 - Request
+- Client
+- Server
+- ServeMux
+- Transport
+- HandlerFunc
 
 .link https://golang.org/pkg/net/http/ net/http package
 
@@ -62,6 +67,33 @@ Examples
 
 * Serving Static Content
 
+net/http FileServer type can be used to serve static content from the
+file system
+
+.link https://github.com/d-smith/go-examples/blob/master/swagger-endpoint/app.go FileServer Example
+
 * HTTP Context
 
+Golang has a context type which provides the ability to pass context
+along with HTTP calls. This is useful for attaching context to requests
+as they flow through an HTTP middleware chain, as well as for 
+attaching deadlines and timeouts, and providing the ability to cancel
+http requests.
+
+.link https://godoc.org/golang.org/x/net/context Context Package
+.link https://github.com/d-smith/go-examples/blob/master/httpctx17/main.go HTTP Context Example
+
 * TLS
+
+Golang supports TLS, including MTLS.
+
+In general golang has rich cryptography support, but be aware many algorithms are
+supported for backwards compatibility and legacy support reasons, and careful
+consideration is needed for newer apps seeking to maximize security.
+
+.link https://github.com/d-smith/go-examples/tree/master/mtls MTLS Example
+.link https://github.com/gtank/cryptopasta Good Crypto Advice for Golang Programming
+
+* Coding Exercise
+
+.link https://golang.org/doc/articles/wiki/ Writing Web Applications Tutorial
