@@ -1,0 +1,2 @@
+Pike talk - https://talks.golang.org/2012/concurrency.slide#1
+Go scheduler - https://github.com/ardanlabs/gotraining/blob/master/topics/concurrency/goroutines/README.md
