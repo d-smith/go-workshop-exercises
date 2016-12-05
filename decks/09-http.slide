@@ -25,7 +25,40 @@ Code Samples
 
 * HTTP Client
 
+net/http package provides a default client implementation that is used
+by some convenience methods:
+
+resp, err := http.Get("http://example.com/")
+
+resp, err := http.Post("http://example.com/upload", "image/jpeg", &buf)
+
+* HTTP Client - Customization
+
+Instantiate a client and customize its transport, use customer headers, and/or 
+override other configuration based
+on your needs...
+
+.link https://github.com/d-smith/go-examples/blob/master/mtls/client/client.go Custom Client Transport
+
+* HTTP Client - Responsibilities
+
+When invoking a method that returns a response, the caller is responsible for
+completely reading the contents of the response and closing the response body.
+Failure to do so will result in a resource leak.
+
+.link https://github.com/d-smith/go-examples/blob/master/mtls/client/client.go Client Clean Up
+
 * HTTP Test Support
+
+The standard library provides support for testing HTTP handlers and 
+spinning up http listeners on demand
+
+.link https://golang.org/pkg/net/http/httptest/ net/http/httptest package
+
+Examples
+
+.link https://github.com/xtracdev/es-atom-pub/blob/master/atompub_test.go Test Recorder
+.link https://github.com/xtracdev/es-atom-pub/blob/master/internal/features/atom/recent_steps.go Test Server
 
 * Serving Static Content
 
